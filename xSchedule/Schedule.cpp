@@ -114,7 +114,7 @@ wxTimeSpan Schedule::GetTimeSinceStartTime() const
 
     if (start > now)
     {
-        start -= wxTimeSpan(24);
+        start -= wxDateSpan::Day();
         spdlog::debug("last start time adjusted by 24 hrs {}.", (const char*)start.FormatISOCombined().c_str());
     }
 
@@ -647,7 +647,7 @@ bool Schedule::CheckActiveAt(const wxDateTime& now)
 
     if (e < s)
     {
-        end.Add(wxTimeSpan(24));
+        end.Add(wxDateSpan::Day());
     }
 
     // handle the 24 hours a day case
@@ -676,11 +676,11 @@ bool Schedule::CheckActiveAt(const wxDateTime& now)
 
         if (e < s && now.FormatISOTime() < end.FormatISOTime())
         {
-            start.Add(wxTimeSpan(-24));
+            start -= wxDateSpan::Day();
         }
         else if (e < s)
         {
-            end.Add(wxTimeSpan(24));
+            end.Add(wxDateSpan::Day());
         }
 
         _active = now >= start && now < end;
@@ -750,7 +750,7 @@ wxDateTime Schedule::GetNextTriggerDateTime()
 
         for (int i = 0; i < 7; i++)
         {
-            next += wxTimeSpan(24);
+            next += wxDateSpan::Day();
 #ifdef LOGCALCNEXTTRIGGERTIME
             spdlog::debug("   Checking {}.", (const char*)next.Format("%Y-%m-%d %H:%M").c_str());
 #endif
@@ -779,7 +779,7 @@ wxDateTime Schedule::GetNextTriggerDateTime()
 
     for (int i = 0; i < 7; i++)
     {
-        next += wxTimeSpan(24);
+        next += wxDateSpan::Day();
 #ifdef LOGCALCNEXTTRIGGERTIME
         spdlog::debug("   Checking {}.", (const char*)next.Format("%Y-%m-%d %H:%M").c_str());
 #endif
@@ -796,7 +796,6 @@ wxDateTime Schedule::GetNextTriggerDateTime()
 std::string Schedule::GetNextNthDay(int nthDay, int nthDayOffset)
 {
     wxDateTime now = wxDateTime::Now();
-    wxTimeSpan day(24);
 
     for (int i = 0; i < 15; i++)
     {
@@ -804,7 +803,7 @@ std::string Schedule::GetNextNthDay(int nthDay, int nthDayOffset)
         {
             return now.FormatISODate().ToStdString();
         }
-        now.Add(day);
+        now += wxDateSpan::Day();
     }
 
     return "Unknown";
@@ -880,7 +879,7 @@ std::string Schedule::GetNextTriggerTime()
 
         for (int i = 0; i < 7; i++)
         {
-            next += wxTimeSpan(24);
+            next += wxDateSpan::Day();
 #ifdef LOGCALCNEXTTRIGGERTIME
             spdlog::debug("Checking {}.", (const char *)next.Format("%Y-%m-%d %H:%M").c_str());
 #endif
@@ -910,7 +909,7 @@ std::string Schedule::GetNextTriggerTime()
 
     for (int i = 0; i < 7; i++)
     {
-        next += wxTimeSpan(24);
+        next += wxDateSpan::Day();
         SetTime(next, __city, _startTime, _startTimeString, _onOffsetMins);
 #ifdef LOGCALCNEXTTRIGGERTIME
         spdlog::debug("Checking {}.", (const char *)next.Format("%Y-%m-%d %H:%M").c_str());
@@ -986,7 +985,7 @@ std::string Schedule::GetNextEndTime()
 
         if (end < start)
         {
-            end += wxTimeSpan(24);
+            end += wxDateSpan::Day();
         }
 
         SetTime(end, __city, _endTime, _endTimeString, _offOffsetMins);
