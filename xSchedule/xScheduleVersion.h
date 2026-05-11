@@ -3,7 +3,7 @@
 #include <string>
 #include "../xlights/xLights/xLightsVersion.h"
 
-static const std::string xschedule_version_string = "2026.05";
+static const std::string xschedule_version_string = "2026.05.1";
 static const std::string xschedule_build_date     = __DATE__;
 
 inline std::string GetXScheduleDisplayVersionString() {
