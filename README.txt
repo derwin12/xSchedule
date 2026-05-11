@@ -8,6 +8,8 @@ Issue Tracker is found here: https://github.com/xLightsSequencer/xSchedule/issue
 
 XSCHEDULE RELEASE NOTES
 ---------------------------------
+2026.06  ??, 2026
+
 2026.05  May 11, 2026
     -bug (derwin)              Fixes for spdlog changes
     -bug (derwin)              Handle time changes better
